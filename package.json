@@ -20,7 +20,9 @@
     "react-native-paper": "^4.8.1",
     "react-native-reanimated": "^2.1.0",
     "react-native-safe-area-context": "^3.2.0",
-    "react-native-screens": "^3.3.0"
+    "react-native-screens": "^3.3.0",
+    "formik": "^2.2.8",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
