@@ -1,25 +1,17 @@
 import * as React from "react";
 import { useContext } from "react";
 import { View, StyleSheet } from "react-native";
-import { TextInput, Button, Headline, Subheading } from "react-native-paper";
+import {
+  TextInput,
+  Button,
+  Headline,
+  Subheading,
+  HelperText,
+} from "react-native-paper";
 import { useFormik } from "formik";
 import theme from "../../theme";
 import { AuthContext } from "../../contexts/auth";
-
-const fields = [
-  {
-    label: "Username",
-    name: "username",
-  },
-  {
-    label: "Email",
-    name: "email",
-  },
-  {
-    label: "Password",
-    name: "password",
-  },
-];
+import { loginSchema } from "../../schema";
 
 const Login = () => {
   const { signIn } = useContext(AuthContext);
@@ -31,36 +23,58 @@ const Login = () => {
     submitForm,
     handleBlur,
     isValid,
-    setFieldValue,
-    setFieldTouched,
   } = useFormik({
     initialValues: {
       username: "",
       email: "",
       password: "",
     },
-    // validationSchema: loginSchema,
+    validationSchema: loginSchema,
     onSubmit: async (values) => {
-      signIn();
+      signIn(values.username, values.email, values.password);
     },
     enableReinitialize: true,
     validateOnChange: true,
     validateOnMount: true,
   });
 
+  const fields = [
+    {
+      label: "Username",
+      name: "username",
+      error: errors.username && touched.username,
+      onChangeText: handleChange("username"),
+      value: values.username,
+      onBlur: handleBlur("username"),
+    },
+    {
+      label: "Email",
+      name: "email",
+      error: errors.email && touched.email,
+      onChangeText: handleChange("email"),
+      value: values.email,
+      onBlur: handleBlur("email"),
+    },
+    {
+      label: "Password",
+      name: "password",
+      error: errors.password && touched.password,
+      onChangeText: handleChange("password"),
+      value: values.password,
+      onBlur: handleBlur("password"),
+    },
+  ];
+
   const renderedFields = fields.map((element, count) => {
-    const { label, name } = element;
+    const { name } = element;
     return (
       <View key={"field-" + count} style={styles.spacing}>
-        <TextInput
-          mode="outlined"
-          label={label}
-          name={name}
-          onChangeText={handleChange(name)}
-          onBlur={handleBlur(name)}
-          value={values.name}
-          fullWidth
-        />
+        <TextInput name={name} {...element} fullWidth />
+        {touched[name] && (
+          <HelperText type="error" visible={errors}>
+            {errors[name]}
+          </HelperText>
+        )}
       </View>
     );
   });
@@ -106,7 +120,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   main: {
-    flex: 2,
+    flex: 3,
   },
   btn: {
     borderRadius: 5,

@@ -81,7 +81,7 @@ export default function App() {
 
   const authContext = useMemo(() => {
     return {
-      signIn: () => {
+      signIn: (username, email, password) => {
         setIsLoading(false);
         setUserToken("asdf");
       },
