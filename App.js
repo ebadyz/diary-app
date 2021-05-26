@@ -12,7 +12,7 @@ import Home from "./src/screens/home";
 
 const AuthStack = createStackNavigator();
 const AuthStackScreen = () => (
-  <AuthStack.Navigator>
+  <AuthStack.Navigator headerMode="none">
     <AuthStack.Screen
       name="Login"
       component={Login}
