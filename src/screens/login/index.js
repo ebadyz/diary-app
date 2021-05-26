@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, styleSheet } from "react-native";
-import { TextInput } from "react-native-paper";
+import { TextInput, Button } from "react-native-paper";
 import { Formik } from "formik";
 
 const fields = [
@@ -23,17 +23,15 @@ const Login = () => {
     const { label, name } = element;
     return (
       <View key={"field-" + count}>
-        <BoomTextField label={label}>
-          <TextField
+          <TextInput
             variant="outlined"
             label={label}
             name={name}
-            onChangeText={handleChange(name)}
-            onBlur={handleBlur(name)}
-            value={values.name}
+            // onChangeText={handleChange(name)}
+            // onBlur={handleBlur(name)}
+            // value={values.name}
             fullWidth
           />
-        </BoomTextField>
       </View>
     );
   });
@@ -46,7 +44,7 @@ const Login = () => {
       {({ handleChange, handleBlur, handleSubmit, values, onBlur }) => (
         <View>
           {renderedFields}
-          <Button onPress={handleSubmit} title="Submit" />
+          <Button title="Submit" />
         </View>
       )}
     </Formik>
