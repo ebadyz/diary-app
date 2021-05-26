@@ -40,6 +40,7 @@ const Login = () => {
 
   const fields = [
     {
+      mode: 'outlined',
       label: "Username",
       name: "username",
       error: errors.username && touched.username,
@@ -48,6 +49,7 @@ const Login = () => {
       onBlur: handleBlur("username"),
     },
     {
+      mode: 'outlined',
       label: "Email",
       name: "email",
       error: errors.email && touched.email,
@@ -56,6 +58,7 @@ const Login = () => {
       onBlur: handleBlur("email"),
     },
     {
+      mode: 'outlined',
       label: "Password",
       name: "password",
       error: errors.password && touched.password,
