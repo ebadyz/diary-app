@@ -4,13 +4,11 @@ import { View, StyleSheet } from "react-native";
 import { TextInput, Button, Headline, Subheading } from "react-native-paper";
 import { useFormik } from "formik";
 import theme from "../../theme";
-import { AuthContext } from "../../contexts/auth";
 
 const fields = [
   {
     placeholder: "Title",
     name: "title",
-    onChangeText: handleChange()
   },
   {
     placeholder: "Diary",
@@ -44,17 +42,17 @@ const addDiary = () => {
   });
 
   const renderedFields = fields.map((element, count) => {
-    const { label, name, onChangeText, onBlur, value } = element;
+    const { label, name } = element;
     return (
       <View key={"field-" + count} style={styles.spacing}>
         <TextInput
-          mode="outlined"
-          label={label}
-          name={name}
-          onChangeText={onChangeText}
-          onBlur={onBlur}
-          value={value}
-          fullWidth
+         mode="outlined"
+         label={label}
+         name={name}
+         onChangeText={handleChange(name)}
+         onBlur={handleBlur(name)}
+         value={values.name}
+         fullWidth
         />
       </View>
     );
@@ -103,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default addDiary;

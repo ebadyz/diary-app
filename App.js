@@ -9,6 +9,7 @@ import { AuthContext } from "./src/contexts/auth";
 import Splash from "./src/screens/splash";
 import Login from "./src/screens/login";
 import Home from "./src/screens/home";
+import AddDiary from "./src/screens/add";
 
 const AuthStack = createStackNavigator();
 const AuthStackScreen = () => (
@@ -35,12 +36,19 @@ const ProfileStackScreen = () => (
   </ProfileStack.Navigator>
 );
 
+const addDiaryStack = createStackNavigator();
+const AddDiaryStackScreen = () => (
+  <addDiaryStack.Navigator>
+    <addDiaryStack.Screen name="Add" component={AddDiary} />
+  </addDiaryStack.Navigator>
+);
+
 const DrawerMenu = createDrawerNavigator();
 const DrawerScreen = () => (
   <DrawerMenu.Navigator initialRouteName="Home">
     <DrawerMenu.Screen name="Home" component={HomeStackScreen} />
     <DrawerMenu.Screen name="Profile" component={ProfileStackScreen} />
-    <DrawerMenu.Screen name="AddDiary" component={AddDiaryStackScreen} />
+    <DrawerMenu.Screen name="Add" component={AddDiaryStackScreen} />
   </DrawerMenu.Navigator>
 );
 
