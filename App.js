@@ -10,6 +10,7 @@ import Splash from "./src/screens/splash";
 import Login from "./src/screens/login";
 import Home from "./src/screens/home";
 import AddDiary from "./src/screens/add";
+import Profile from './src/screens/profile'
 
 const AuthStack = createStackNavigator();
 const AuthStackScreen = () => (
@@ -47,8 +48,8 @@ const DrawerMenu = createDrawerNavigator();
 const DrawerScreen = () => (
   <DrawerMenu.Navigator initialRouteName="Home">
     <DrawerMenu.Screen name="Home" component={HomeStackScreen} />
-    <DrawerMenu.Screen name="Profile" component={ProfileStackScreen} />
     <DrawerMenu.Screen name="Add" component={AddDiaryStackScreen} />
+    <DrawerMenu.Screen name="Profile" component={ProfileStackScreen} />
   </DrawerMenu.Navigator>
 );
 
