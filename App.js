@@ -1,16 +1,16 @@
 import * as React from "react";
 import { useState, useEffect, useMemo } from "react";
-import { Provider as PaperProvider } from "react-native-paper";
+import { Provider as PaperProvider, Button } from "react-native-paper";
 import theme from "./src/theme";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { AuthContext } from "./src/contexts/auth";
 import Splash from "./src/screens/splash";
 import Login from "./src/screens/login";
 import Home from "./src/screens/home";
 import AddDiary from "./src/screens/add";
-import Profile from './src/screens/profile'
+import Profile from "./src/screens/profile";
 
 const AuthStack = createStackNavigator();
 const AuthStackScreen = () => (
@@ -31,9 +31,19 @@ const HomeStackScreen = () => (
 );
 
 const ProfileStack = createStackNavigator();
-const ProfileStackScreen = () => (
-  <ProfileStack.Navigator>
-    <ProfileStack.Screen name="Profile" component={Profile} />
+const ProfileStackScreen = ({ navigation }) => (
+  <ProfileStack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
+    <ProfileStack.Screen
+      name="Profile"
+      component={Profile}
+      options={{
+        headerLeft: () => (
+          <Button onPress={() => navigation.goBack()} color="black">
+            back
+          </Button>
+        ),
+      }}
+    />
   </ProfileStack.Navigator>
 );
 
