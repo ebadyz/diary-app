@@ -13,6 +13,7 @@ import {
 } from "react-native-paper";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { AuthContext } from "../../contexts/auth";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const DrawerContent = (props) => {
   const paperTheme = useTheme();
@@ -53,27 +54,27 @@ const DrawerContent = (props) => {
 
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
-              //   icon={({ color, size }) => (
-              //     <Icon name="home-outline" color={color} size={size} />
-              //   )}
+              icon={({ color, size }) => (
+                <Icon name="home-outline" color={color} size={size} />
+              )}
               label="Home"
               onPress={() => {
                 props.navigation.navigate("Home");
               }}
             />
             <DrawerItem
-              //   icon={({ color, size }) => (
-              //     <Icon name="account-outline" color={color} size={size} />
-              //   )}
+              icon={({ color, size }) => (
+                <Icon name="account-outline" color={color} size={size} />
+              )}
               label="Profile"
               onPress={() => {
                 props.navigation.navigate("Profile");
               }}
             />
             <DrawerItem
-              //   icon={({ color, size }) => (
-              //     <Icon name="account-check-outline" color={color} size={size} />
-              //   )}
+              icon={({ color, size }) => (
+                <Icon name="account-check-outline" color={color} size={size} />
+              )}
               label="Support"
               onPress={() => {
                 props.navigation.navigate("SupportScreen");
@@ -98,9 +99,9 @@ const DrawerContent = (props) => {
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomDrawerSection}>
         <DrawerItem
-          //   icon={({ color, size }) => (
-          //     <Icon name="exit-to-app" color={color} size={size} />
-          //   )}
+          icon={({ color, size }) => (
+            <Icon name="exit-to-app" color={color} size={size} />
+          )}
           label="Sign Out"
           onPress={() => {
             signOut();
