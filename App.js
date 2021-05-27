@@ -124,7 +124,7 @@ const RootStackScreen = ({ userToken }) => (
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [userToken, setUserToken] = useState("null");
+  const [userToken, setUserToken] = useState(null);
 
   const authContext = useMemo(() => {
     const temp = {
