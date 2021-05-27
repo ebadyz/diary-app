@@ -65,6 +65,8 @@ const Login = () => {
       onChangeText: handleChange("password"),
       value: values.password,
       onBlur: handleBlur("password"),
+      secureTextEntry: true,
+      right: <TextInput.Icon name="eye" />,
     },
   ];
 
