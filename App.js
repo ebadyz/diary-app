@@ -75,13 +75,12 @@ const AddDiaryStackScreen = ({ navigation }) => (
       component={AddDiary}
       options={{
         title: "Add Diary",
-        headerStyle: {
-          elevation: 2,
-        },
         headerLeft: () => (
-          <Button onPress={() => navigation.goBack()} color="black">
-            icon
-          </Button>
+          <IconButton
+            icon="arrow-left"
+            size={24}
+            onPress={() => navigation.goBack()}
+          />
         ),
       }}
     />
