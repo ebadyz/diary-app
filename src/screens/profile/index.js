@@ -26,11 +26,11 @@ export default function Profile() {
       </View>
       <View style={styles.userInfo}>
         <View style={styles.center}>
-          <Title style={styles.count}>12</Title>
+          <Title>12</Title>
           <Subheading>Total Diaries</Subheading>
         </View>
         <View style={styles.center}>
-          <Title style={styles.count}>7</Title>
+          <Title>7</Title>
           <Subheading>Fav Diaries</Subheading>
         </View>
       </View>
@@ -39,7 +39,31 @@ export default function Profile() {
           <Card.Title
             title="Joined Date"
             subtitle="1 january 2020"
-            left={(props) => <Avatar.Icon {...props} icon="folder" />}
+            left={(props) => (
+              <Avatar.Icon {...props} icon="alarm" color="#ffffff" size={45}/>
+            )}
+          />
+        </Card>
+      </View>
+      <View style={styles.items}>
+        <Card>
+          <Card.Title
+            title="Joined Date"
+            subtitle="1 january 2020"
+            left={(props) => (
+              <Avatar.Icon {...props} icon="alarm" color="#ffffff" size={45}/>
+            )}
+          />
+        </Card>
+      </View>
+      <View style={styles.items}>
+        <Card>
+          <Card.Title
+            title="Joined Date"
+            subtitle="1 january 2020"
+            left={(props) => (
+              <Avatar.Icon {...props} icon="alarm" color="#ffffff" size={45}/>
+            )}
           />
         </Card>
       </View>
@@ -60,17 +84,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   userInfo: {
-    flex: 2,
+    flex: 1,
     flexDirection: "row",
     justifyContent: "space-around",
   },
   center: {
     alignItems: "center",
   },
-  count: {
-    color: theme.colors.primary,
-  },
   items: {
-    flex: 2,
+    flex: 1,
   },
 });

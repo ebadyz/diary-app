@@ -36,15 +36,11 @@ const HomeStackScreen = ({ navigation }) => (
       component={Home}
       options={{
         title: "Diary",
-        headerStyle: {
-          elevation: 2,
-        },
         headerLeft: () => (
           <IconButton
             icon="menu"
             size={24}
             onPress={() => navigation.openDrawer()}
-            color="black"
           />
         ),
       }}
@@ -60,9 +56,11 @@ const ProfileStackScreen = ({ navigation }) => (
       component={Profile}
       options={{
         headerLeft: () => (
-          <Button onPress={() => navigation.goBack()} color="black">
-            back
-          </Button>
+          <IconButton
+            icon="arrow-left"
+            size={24}
+            onPress={() => navigation.goBack()}
+          />
         ),
       }}
     />
