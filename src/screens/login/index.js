@@ -40,7 +40,7 @@ const Login = () => {
 
   const fields = [
     {
-      mode: 'outlined',
+      mode: "outlined",
       label: "Username",
       name: "username",
       error: errors.username && touched.username,
@@ -49,7 +49,7 @@ const Login = () => {
       onBlur: handleBlur("username"),
     },
     {
-      mode: 'outlined',
+      mode: "outlined",
       label: "Email",
       name: "email",
       error: errors.email && touched.email,
@@ -58,7 +58,7 @@ const Login = () => {
       onBlur: handleBlur("email"),
     },
     {
-      mode: 'outlined',
+      mode: "outlined",
       label: "Password",
       name: "password",
       error: errors.password && touched.password,
@@ -73,7 +73,7 @@ const Login = () => {
     return (
       <View key={"field-" + count} style={styles.spacing}>
         <TextInput name={name} {...element} fullWidth />
-        {touched[name] && (
+        {errors[name] && touched[name] && (
           <HelperText type="error" visible={errors}>
             {errors[name]}
           </HelperText>
@@ -127,9 +127,6 @@ const styles = StyleSheet.create({
   },
   btn: {
     borderRadius: 5,
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center",
   },
   footer: {
     flex: 1,

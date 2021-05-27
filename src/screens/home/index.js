@@ -75,7 +75,12 @@ const Item = ({ title, diary, createdAt }) => (
     subtitle={<Paragraph style={{ color: "gray" }}>{diary}</Paragraph>}
     right={(props) => (
       <View {...props}>
-        <Button>Edit</Button>
+        <IconButton
+          icon="square-edit-outline"
+          size={22}
+          onPress={() => navigation.openDrawer()}
+          color="black"
+        />
         <Paragraph>{createdAt}</Paragraph>
       </View>
     )}
@@ -102,8 +107,9 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
   },
   item: {
-    elevation: 2,
-    backgroundColor: theme.colors.background
+    elevation: 7,
+    backgroundColor: theme.colors.background,
+    paddingVertical: 15
   },
 });
 export default Home;
