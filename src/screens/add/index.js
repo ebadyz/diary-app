@@ -7,12 +7,16 @@ import theme from "../../theme";
 
 const fields = [
   {
-    placeholder: "Title",
+    mode: "flat",
+    placeholder: "title",
     name: "title",
   },
   {
-    placeholder: "Diary",
+    mode: "flat",
+    placeholder: "dear diary ...",
     name: "diary",
+    multiline: true,
+    numberOfLines: 20
   },
 ];
 
@@ -45,15 +49,12 @@ const addDiary = () => {
     const { label, name } = element;
     return (
       <View key={"field-" + count} style={styles.spacing}>
-        <TextInput
-         mode="outlined"
-         label={label}
-         name={name}
-         onChangeText={handleChange(name)}
-         onBlur={handleBlur(name)}
-         value={values.name}
-         fullWidth
-        />
+        <TextInput name={name} {...element} fullWidth />
+        {touched[name] && (
+          <HelperText type="error" visible={errors}>
+            {errors[name]}
+          </HelperText>
+        )}
       </View>
     );
   });
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   main: {
-    flex: 2,
+    flex: 4,
   },
   btn: {
     borderRadius: 5,

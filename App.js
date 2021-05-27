@@ -80,8 +80,10 @@ export default function App() {
   const [userToken, setUserToken] = useState(null);
 
   const authContext = useMemo(() => {
-    return {
+    const temp = {
+      user: null,
       signIn: (username, email, password) => {
+        temp.user = { username: username };
         setIsLoading(false);
         setUserToken("asdf");
       },
@@ -90,6 +92,7 @@ export default function App() {
         setUserToken(null);
       },
     };
+    return temp;
   }, []);
 
   useEffect(() => {
