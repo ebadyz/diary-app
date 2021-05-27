@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect, useMemo } from "react";
-import { Provider as PaperProvider, Button } from "react-native-paper";
+import { Provider as PaperProvider, Button, shadow } from "react-native-paper";
 import theme from "./src/theme";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
@@ -24,9 +24,23 @@ const AuthStackScreen = () => (
 );
 
 const HomeStack = createStackNavigator();
-const HomeStackScreen = () => (
-  <HomeStack.Navigator>
-    <HomeStack.Screen name="Home" component={Home} />
+const HomeStackScreen = ({ navigation }) => (
+  <HomeStack.Navigator screenOptions={{ headerTitleAlign: "left" }}>
+    <HomeStack.Screen
+      name="Home"
+      component={Home}
+      options={{
+        title: "Diary",
+        headerStyle: {
+          elevation: 2,
+        },
+        headerLeft: () => (
+          <Button onPress={() => navigation.openDrawer()} color="black">
+            icon
+          </Button>
+        ),
+      }}
+    />
   </HomeStack.Navigator>
 );
 

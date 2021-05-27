@@ -102,9 +102,8 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
   },
   item: {
-    borderBottomWidth: 1,
-    borderColor: "#eeeeee",
-    backgroundColor: "#fafaf4",
+    elevation: 2,
+    backgroundColor: theme.colors.background
   },
 });
 export default Home;
