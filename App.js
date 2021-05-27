@@ -1,9 +1,9 @@
 import * as React from "react";
 import { useState, useEffect, useMemo } from "react";
-import { Provider as PaperProvider, Button, shadow } from "react-native-paper";
+import { Provider as PaperProvider, Button } from "react-native-paper";
 import theme from "./src/theme";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { AuthContext } from "./src/contexts/auth";
 import Splash from "./src/screens/splash";
@@ -62,9 +62,23 @@ const ProfileStackScreen = ({ navigation }) => (
 );
 
 const addDiaryStack = createStackNavigator();
-const AddDiaryStackScreen = () => (
-  <addDiaryStack.Navigator>
-    <addDiaryStack.Screen name="Add" component={AddDiary} />
+const AddDiaryStackScreen = ({ navigation }) => (
+  <addDiaryStack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
+    <addDiaryStack.Screen
+      name="Add"
+      component={AddDiary}
+      options={{
+        title: "Add Diary",
+        headerStyle: {
+          elevation: 2,
+        },
+        headerLeft: () => (
+          <Button onPress={() => navigation.goBack()} color="black">
+            icon
+          </Button>
+        ),
+      }}
+    />
   </addDiaryStack.Navigator>
 );
 
