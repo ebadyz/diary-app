@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { AuthContext } from "./src/contexts/auth";
+import DrawerContent from "./src/components/drawerContent";
 import Splash from "./src/screens/splash";
 import Login from "./src/screens/login";
 import Home from "./src/screens/home";
@@ -84,7 +85,10 @@ const AddDiaryStackScreen = ({ navigation }) => (
 
 const DrawerMenu = createDrawerNavigator();
 const DrawerScreen = () => (
-  <DrawerMenu.Navigator initialRouteName="Home">
+  <DrawerMenu.Navigator
+    initialRouteName="Home"
+    drawerContent={(props) => <DrawerContent {...props} />}
+  >
     <DrawerMenu.Screen name="Home" component={HomeStackScreen} />
     <DrawerMenu.Screen name="Add" component={AddDiaryStackScreen} />
     <DrawerMenu.Screen name="Profile" component={ProfileStackScreen} />
@@ -116,7 +120,7 @@ const RootStackScreen = ({ userToken }) => (
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [userToken, setUserToken] = useState(null);
+  const [userToken, setUserToken] = useState("null");
 
   const authContext = useMemo(() => {
     const temp = {
