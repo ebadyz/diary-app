@@ -1,6 +1,6 @@
 import React from "react";
 import { View, FlatList, StyleSheet } from "react-native";
-import { Button, IconButton, Card, Title, Paragraph } from "react-native-paper";
+import { FAB, IconButton, Card, Title, Paragraph } from "react-native-paper";
 import theme from "../../theme";
 
 const date = new Date().getFullYear();
@@ -87,17 +87,25 @@ const Item = ({ title, diary, createdAt }) => (
   />
 );
 
-const Home = () => {
+const Home = ({ navigation }) => {
   const renderItem = ({ item }) => (
     <Item title={item.title} diary={item.diary} createdAt={item.createdAt} />
   );
   return (
-    <FlatList
-      style={styles.container}
-      data={mockData}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id}
-    />
+    <>
+      <FlatList
+        style={styles.container}
+        data={mockData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+      />
+      <FAB
+        style={styles.fab}
+        color={theme.colors.background}
+        icon="plus"
+        onPress={() => navigation.navigate("Add")}
+      />
+    </>
   );
 };
 
@@ -109,7 +117,14 @@ const styles = StyleSheet.create({
   item: {
     elevation: 7,
     backgroundColor: theme.colors.background,
-    paddingVertical: 15
+    paddingVertical: 15,
+  },
+  fab: {
+    position: "absolute",
+    margin: 20,
+    right: 0,
+    bottom: 0,
+    backgroundColor: theme.colors.primary,
   },
 });
 export default Home;
