@@ -149,18 +149,6 @@ export default function App() {
     }, 1000);
   }, []);
 
-  useEffect(function () {
-    SQLite.DEBUG(true);
-    SQLite.enablePromise(true);
-
-    SQLite.openDatabase({
-      name: "TestDatabase",
-      location: "default",
-    }).then((db) => {
-      console.log("Database open!");
-    });
-  }, []);
-
   if (isLoading) {
     return <Splash />;
   }

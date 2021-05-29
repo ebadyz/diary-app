@@ -35,7 +35,7 @@ const addDiary = ({ navigation }) => {
     },
     // validationSchema: loginSchema,
     onSubmit: async (values) => {
-      setData();
+      addSubmitHandler(values.title, values.diary);
     },
     enableReinitialize: true,
     validateOnChange: true,
@@ -87,12 +87,12 @@ const addDiary = ({ navigation }) => {
     });
   };
 
-  const setData = async () => {
+  const addSubmitHandler = async (title, diary) => {
     try {
       await db.transaction(async (tx) => {
         await tx.executeSql("INSERT INTO Diaries (Title, Diary) VALUES (?,?)", [
-          values.title,
-          values.diary,
+          title,
+          diary,
         ]);
       });
       navigation.navigate("Home");
