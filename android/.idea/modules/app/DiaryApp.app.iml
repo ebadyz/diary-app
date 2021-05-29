@@ -136,6 +136,7 @@
     <orderEntry type="module" module-name="DiaryApp.react-native-gesture-handler" />
     <orderEntry type="module" module-name="DiaryApp.react-native-safe-area-context" />
     <orderEntry type="module" module-name="DiaryApp.react-native-screens" />
+    <orderEntry type="module" module-name="DiaryApp.react-native-sqlite-storage" />
     <orderEntry type="module" module-name="DiaryApp.react-native-vector-icons" />
   </component>
 </module>

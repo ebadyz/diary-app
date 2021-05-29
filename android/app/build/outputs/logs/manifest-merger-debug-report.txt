@@ -12,6 +12,7 @@ MERGED from [:react-native-community_masked-view] /Users/macbook/Desktop/project
 MERGED from [:react-native-gesture-handler] /Users/macbook/Desktop/projects/finology-diary-app/node_modules/react-native-gesture-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-safe-area-context] /Users/macbook/Desktop/projects/finology-diary-app/node_modules/react-native-safe-area-context/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-screens] /Users/macbook/Desktop/projects/finology-diary-app/node_modules/react-native-screens/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
+MERGED from [:react-native-sqlite-storage] /Users/macbook/Desktop/projects/finology-diary-app/node_modules/react-native-sqlite-storage/platforms/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-vector-icons] /Users/macbook/Desktop/projects/finology-diary-app/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [com.facebook.react:react-native:0.64.1] /Users/macbook/.gradle/caches/transforms-2/files-2.1/8d2282471b47ce9a43adfd1155d78528/jetified-react-native-0.64.1/AndroidManifest.xml:2:1-13:12
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/macbook/.gradle/caches/transforms-2/files-2.1/5c64f35c4f864d4cd139ccbbff91ceb9/swiperefreshlayout-1.0.0/AndroidManifest.xml:17:1-22:12
@@ -169,6 +170,8 @@ MERGED from [:react-native-safe-area-context] /Users/macbook/Desktop/projects/fi
 MERGED from [:react-native-safe-area-context] /Users/macbook/Desktop/projects/finology-diary-app/node_modules/react-native-safe-area-context/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-screens] /Users/macbook/Desktop/projects/finology-diary-app/node_modules/react-native-screens/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-screens] /Users/macbook/Desktop/projects/finology-diary-app/node_modules/react-native-screens/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-sqlite-storage] /Users/macbook/Desktop/projects/finology-diary-app/node_modules/react-native-sqlite-storage/platforms/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-sqlite-storage] /Users/macbook/Desktop/projects/finology-diary-app/node_modules/react-native-sqlite-storage/platforms/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-vector-icons] /Users/macbook/Desktop/projects/finology-diary-app/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-vector-icons] /Users/macbook/Desktop/projects/finology-diary-app/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:0.64.1] /Users/macbook/.gradle/caches/transforms-2/files-2.1/8d2282471b47ce9a43adfd1155d78528/jetified-react-native-0.64.1/AndroidManifest.xml:7:5-9:41
