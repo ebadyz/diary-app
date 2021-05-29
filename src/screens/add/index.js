@@ -4,23 +4,20 @@ import { View, StyleSheet } from "react-native";
 import { TextInput, Button, Headline, Subheading } from "react-native-paper";
 import { useFormik } from "formik";
 import theme from "../../theme";
-
-const fields = [
+import SQLite from "react-native-sqlite-storage";
+import { useEffect } from "react/cjs/react.development";
+const db = SQLite.openDatabase(
   {
-    mode: "flat",
-    placeholder: "title",
-    name: "title",
+    name: "MainDB",
+    location: "default",
   },
-  {
-    mode: "flat",
-    placeholder: "dear diary ...",
-    name: "diary",
-    multiline: true,
-    numberOfLines: 20
-  },
-];
+  () => {},
+  (error) => {
+    console.log(error);
+  }
+);
 
-const addDiary = () => {
+const addDiary = ({ navigation }) => {
   const {
     values,
     errors,
@@ -38,19 +35,40 @@ const addDiary = () => {
     },
     // validationSchema: loginSchema,
     onSubmit: async (values) => {
-    //   signIn();
+      setData();
     },
     enableReinitialize: true,
     validateOnChange: true,
     validateOnMount: true,
   });
 
+  const fields = [
+    {
+      mode: "flat",
+      placeholder: "title",
+      name: "title",
+      onChangeText: handleChange("title"),
+    },
+    {
+      mode: "flat",
+      placeholder: "dear diary ...",
+      name: "diary",
+      multiline: true,
+      numberOfLines: 20,
+      onChangeText: handleChange("diary"),
+    },
+  ];
+
+  useEffect(() => {
+    createTable();
+  }, []);
+
   const renderedFields = fields.map((element, count) => {
     const { label, name } = element;
     return (
       <View key={"field-" + count} style={styles.spacing}>
         <TextInput name={name} {...element} fullWidth />
-        {touched[name] && (
+        {touched[name] && errors[name] && (
           <HelperText type="error" visible={errors}>
             {errors[name]}
           </HelperText>
@@ -58,6 +76,30 @@ const addDiary = () => {
       </View>
     );
   });
+
+  const createTable = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "CREATE TABLE IF NOT EXISTS " +
+          "Diaries " +
+          "(ID INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Diary TEXT);"
+      );
+    });
+  };
+
+  const setData = async () => {
+    try {
+      await db.transaction(async (tx) => {
+        await tx.executeSql("INSERT INTO Diaries (Title, Diary) VALUES (?,?)", [
+          values.title,
+          values.diary,
+        ]);
+      });
+      navigation.navigate("Home");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -84,7 +126,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     paddingHorizontal: 20,
-    paddingVertical: 20
+    paddingVertical: 20,
   },
   spacing: {
     paddingBottom: 10,
