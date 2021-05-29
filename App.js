@@ -16,6 +16,7 @@ import Splash from "./src/screens/splash";
 import Login from "./src/screens/login";
 import Home from "./src/screens/home";
 import AddDiary from "./src/screens/add";
+import EditDiary from "./src/screens/edit";
 import Profile from "./src/screens/profile";
 
 const AuthStack = createStackNavigator();
@@ -37,11 +38,42 @@ const HomeStackScreen = ({ navigation }) => (
       component={Home}
       options={{
         title: "Diary",
+        animationEnabled: false,
         headerLeft: () => (
           <IconButton
             icon="menu"
             size={24}
             onPress={() => navigation.openDrawer()}
+          />
+        ),
+      }}
+    />
+    <HomeStack.Screen
+      name="Add"
+      component={AddDiary}
+      options={{
+        title: "Add Diary",
+        animationEnabled: false,
+        headerLeft: () => (
+          <IconButton
+            icon="arrow-left"
+            size={24}
+            onPress={() => navigation.goBack()}
+          />
+        ),
+      }}
+    />
+     <HomeStack.Screen
+      name="Edit"
+      component={EditDiary}
+      options={{
+        title: "Edit",
+        animationEnabled: false,
+        headerLeft: () => (
+          <IconButton
+            icon="arrow-left"
+            size={24}
+            onPress={() => navigation.goBack()}
           />
         ),
       }}
@@ -68,26 +100,6 @@ const ProfileStackScreen = ({ navigation }) => (
   </ProfileStack.Navigator>
 );
 
-const addDiaryStack = createStackNavigator();
-const AddDiaryStackScreen = ({ navigation }) => (
-  <addDiaryStack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
-    <addDiaryStack.Screen
-      name="Add"
-      component={AddDiary}
-      options={{
-        title: "Add Diary",
-        headerLeft: () => (
-          <IconButton
-            icon="arrow-left"
-            size={24}
-            onPress={() => navigation.goBack()}
-          />
-        ),
-      }}
-    />
-  </addDiaryStack.Navigator>
-);
-
 const DrawerMenu = createDrawerNavigator();
 const DrawerScreen = () => (
   <DrawerMenu.Navigator
@@ -95,7 +107,6 @@ const DrawerScreen = () => (
     drawerContent={(props) => <DrawerContent {...props} />}
   >
     <DrawerMenu.Screen name="Home" component={HomeStackScreen} />
-    <DrawerMenu.Screen name="Add" component={AddDiaryStackScreen} />
     <DrawerMenu.Screen name="Profile" component={ProfileStackScreen} />
   </DrawerMenu.Navigator>
 );
@@ -154,12 +165,12 @@ export default function App() {
   }
 
   return (
-      <PaperProvider theme={theme}>
-        <AuthContext.Provider value={authContext}>
-          <NavigationContainer>
-            <RootStackScreen userToken={userToken} />
-          </NavigationContainer>
-        </AuthContext.Provider>
-      </PaperProvider>
+    <PaperProvider theme={theme}>
+      <AuthContext.Provider value={authContext}>
+        <NavigationContainer>
+          <RootStackScreen userToken={userToken} />
+        </NavigationContainer>
+      </AuthContext.Provider>
+    </PaperProvider>
   );
 }
