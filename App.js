@@ -166,12 +166,12 @@ export default function App() {
   }
 
   return (
-    <PaperProvider theme={theme}>
-      <AuthContext.Provider value={authContext}>
-        <NavigationContainer>
-          <RootStackScreen userToken={userToken} />
-        </NavigationContainer>
-      </AuthContext.Provider>
-    </PaperProvider>
+      <PaperProvider theme={theme}>
+        <AuthContext.Provider value={authContext}>
+          <NavigationContainer>
+            <RootStackScreen userToken={userToken} />
+          </NavigationContainer>
+        </AuthContext.Provider>
+      </PaperProvider>
   );
 }
