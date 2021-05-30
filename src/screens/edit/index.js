@@ -83,7 +83,7 @@ const EditDiary = ({ route, navigation }) => {
   });
 
   const updateSubmitHandler = async (title, diary) => {
-    if (!values.title && !values.diary) {
+    if (values.title === "" || values.diary === "") {
       setShowDialog(true);
       setDialogTitle("Alert");
       setDialogContent("You can not create an empty diary!");
