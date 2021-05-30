@@ -31,8 +31,8 @@ const DrawerContent = (props) => {
                 size={65}
               />
               <View style={{ marginLeft: 15, flexDirection: "column" }}>
-                <Title style={styles.title}>Ebad YZ</Title>
-                <Caption style={styles.caption}>@ebad_yz</Caption>
+                <Title style={styles.title}>John Doe</Title>
+                <Caption style={styles.caption}>@j_doe</Caption>
               </View>
             </View>
 
