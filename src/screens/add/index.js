@@ -1,7 +1,13 @@
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { TextInput, Button, Headline, Subheading } from "react-native-paper";
+import {
+  TextInput,
+  Button,
+  Portal,
+  Dialog,
+  Paragraph,
+} from "react-native-paper";
 import { useFormik } from "formik";
 import theme from "../../theme";
 import SQLite from "react-native-sqlite-storage";
@@ -18,6 +24,7 @@ const db = SQLite.openDatabase(
 );
 
 const addDiary = ({ navigation }) => {
+  const [showDialog, setShowDialog] = useState(false);
   const {
     values,
     errors,
@@ -33,7 +40,6 @@ const addDiary = ({ navigation }) => {
       title: "",
       diary: "",
     },
-    // validationSchema: loginSchema,
     onSubmit: async (values) => {
       addSubmitHandler(values.title, values.diary);
     },
@@ -89,25 +95,44 @@ const addDiary = ({ navigation }) => {
 
   const addSubmitHandler = async (title, diary) => {
     try {
-      await db.transaction(async (tx) => {
-        await tx.executeSql("INSERT INTO Diaries (Title, Diary) VALUES (?,?)", [
-          title,
-          diary,
-        ]);
-      });
-      navigation.navigate("Home");
+      if (title && diary) {
+        await db.transaction(async (tx) => {
+          await tx.executeSql(
+            "INSERT INTO Diaries (Title, Diary) VALUES (?,?)",
+            [title && title, diary && diary]
+          );
+        });
+        navigation.navigate("Home");
+      } else {
+        setShowDialog(true);
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.main}>{renderedFields}</View>
-      <View style={styles.footer}>
-        <FlatButton text="Create" onPress={submitForm} />
+    <>
+      <View style={styles.container}>
+        <View style={styles.main}>{renderedFields}</View>
+        <View style={styles.footer}>
+          <FlatButton text="Create" onPress={submitForm} />
+        </View>
       </View>
-    </View>
+      <Portal>
+        <Dialog visible={showDialog} onDismiss={() => setShowDialog(false)}>
+          <Dialog.Title>Alert</Dialog.Title>
+          <Dialog.Content>
+            <Paragraph>You can not create an empty diary!</Paragraph>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button mode="text" onPress={() => setShowDialog(false)}>
+              Done
+            </Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
+    </>
   );
 };
 
