@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useContext } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import {
   TextInput,
   Button,
@@ -12,6 +12,9 @@ import { useFormik } from "formik";
 import theme from "../../theme";
 import { AuthContext } from "../../contexts/auth";
 import { loginSchema } from "../../schema";
+import FlatButton from "../../components/button";
+
+const window = Dimensions.get("window");
 
 const Login = () => {
   const { signIn } = useContext(AuthContext);
@@ -41,7 +44,7 @@ const Login = () => {
   const fields = [
     {
       mode: "outlined",
-      label: "Username",
+      placeholder: "Username",
       name: "username",
       error: errors.username && touched.username,
       onChangeText: handleChange("username"),
@@ -50,7 +53,7 @@ const Login = () => {
     },
     {
       mode: "outlined",
-      label: "Email",
+      placeholder: "Email",
       name: "email",
       error: errors.email && touched.email,
       onChangeText: handleChange("email"),
@@ -59,22 +62,20 @@ const Login = () => {
     },
     {
       mode: "outlined",
-      label: "Password",
+      placeholder: "Password",
       name: "password",
       error: errors.password && touched.password,
       onChangeText: handleChange("password"),
       value: values.password,
       onBlur: handleBlur("password"),
-      secureTextEntry: true,
-      right: <TextInput.Icon name="eye" />,
     },
   ];
 
   const renderedFields = fields.map((element, count) => {
     const { name } = element;
     return (
-      <View key={"field-" + count} style={styles.spacing}>
-        <TextInput name={name} {...element} fullWidth />
+      <View key={count}>
+        <TextInput name={name} {...element} style={styles.input} />
         {errors[name] && touched[name] && (
           <HelperText type="error" visible={errors}>
             {errors[name]}
@@ -87,23 +88,14 @@ const Login = () => {
   return (
     <View style={styles.container}>
       <View style={styles.head}>
-        <Headline style={{ color: theme.colors.primary }}>LOGIN</Headline>
-        <Subheading style={{ color: theme.colors.primary }}>
+        <Headline style={styles.title}>LOGIN</Headline>
+        <Subheading style={styles.subTitle}>
           Welcome to Diary App
         </Subheading>
       </View>
-      <View style={styles.main}>{renderedFields}</View>
+      {renderedFields}
       <View style={styles.footer}>
-        <Button
-          mode="contained"
-          uppercase={false}
-          color={theme.colors.primary}
-          style={styles.btn}
-          labelStyle={{ color: theme.colors.text }}
-          onPress={submitForm}
-        >
-          Sign in
-        </Button>
+        <FlatButton text="sign in" onPress={submitForm} />
       </View>
     </View>
   );
@@ -113,26 +105,33 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.background,
     flex: 1,
+    alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 20,
-  },
-  spacing: {
-    paddingBottom: 20,
   },
   head: {
-    flex: 2,
-    justifyContent: "center",
-    alignItems: "center",
+    marginVertical: 15,
+    alignItems: "center"
   },
-  main: {
-    flex: 3,
-  },
-  btn: {
-    borderRadius: 5,
+  input: {
+    backgroundColor: "#fff",
+    marginVertical: 5,
+    width: window.width - 30,
   },
   footer: {
-    flex: 1,
+    marginVertical: 20,
+    width: "100%",
+    paddingHorizontal: 15,
   },
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: theme.colors.primary 
+  },
+  subTitle: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: theme.colors.primary 
+  }
 });
 
 export default Login;
