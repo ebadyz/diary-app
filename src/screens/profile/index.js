@@ -22,7 +22,7 @@ export default function Profile() {
             }}
           />
         </View>
-        <Headline>ebad_yz</Headline>
+        <Headline>John Doe</Headline>
       </View>
       <View style={styles.userInfo}>
         <View style={styles.center}>
@@ -33,28 +33,6 @@ export default function Profile() {
           <Title>7</Title>
           <Subheading>Fav Diaries</Subheading>
         </View>
-      </View>
-      <View style={styles.items}>
-        <Card>
-          <Card.Title
-            title="Joined Date"
-            subtitle="1 january 2020"
-            left={(props) => (
-              <Avatar.Icon {...props} icon="alarm" color="#ffffff" size={45}/>
-            )}
-          />
-        </Card>
-      </View>
-      <View style={styles.items}>
-        <Card>
-          <Card.Title
-            title="Joined Date"
-            subtitle="1 january 2020"
-            left={(props) => (
-              <Avatar.Icon {...props} icon="alarm" color="#ffffff" size={45}/>
-            )}
-          />
-        </Card>
       </View>
       <View style={styles.items}>
         <Card>
