@@ -57,9 +57,6 @@ const Home = ({ navigation }) => {
     <Item title={item.Title} diary={item.Diary} id={item.ID} />
   );
 
-  // useEffect(() => {
-  //   getData();
-  // }, []);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
