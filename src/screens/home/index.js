@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
-import {
-  FAB,
-  IconButton,
-  Card,
-  Title,
-  Paragraph,
-} from "react-native-paper";
+import { FAB, IconButton, Card, Title, Paragraph } from "react-native-paper";
 import theme from "../../theme";
+import { format } from "date-fns";
 import SQLite from "react-native-sqlite-storage";
 
 const db = SQLite.openDatabase(
@@ -30,9 +25,9 @@ const Home = ({ navigation }) => {
     <Card.Title
       style={styles.item}
       title={title}
-      subtitle={<Paragraph style={{ color: "gray" }}>{diary}</Paragraph>}
+      subtitle={diary}
       right={(props) => (
-        <View {...props}>
+        <View {...props} style={{ alignItems: "flex-end" }}>
           <IconButton
             icon="square-edit-outline"
             size={22}
@@ -47,16 +42,22 @@ const Home = ({ navigation }) => {
             }}
             color="black"
           />
-          {/* <Paragraph>{createdAt}</Paragraph> */}
+          <Paragraph>
+            {format(new Date(Number(createdAt)), "MM dd yyyy")}
+          </Paragraph>
         </View>
       )}
     />
   );
 
   const renderItem = ({ item }) => (
-    <Item title={item.Title} diary={item.Diary} id={item.ID} />
+    <Item
+      title={item.Title}
+      diary={item.Diary}
+      id={item.ID}
+      createdAt={item.Date}
+    />
   );
-
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
