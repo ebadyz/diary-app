@@ -28,6 +28,7 @@ const addDiary = ({ navigation }) => {
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogContent, setDialogContent] = useState("");
   const [dialogActionText, setDialogActionText] = useState("");
+  const date = Date.now()
   const {
     values,
     errors,
@@ -44,7 +45,7 @@ const addDiary = ({ navigation }) => {
       diary: "",
     },
     onSubmit: async (values) => {
-      addSubmitHandler(values.title, values.diary);
+      addSubmitHandler(values.title, values.diary, date);
     },
     enableReinitialize: true,
     validateOnChange: true,
@@ -86,18 +87,19 @@ const addDiary = ({ navigation }) => {
       tx.executeSql(
         "CREATE TABLE IF NOT EXISTS " +
           "Diaries " +
-          "(ID INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Diary TEXT);"
+          "(ID INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Diary TEXT, Date TEXT);"
       );
     });
   };
 
-  const addSubmitHandler = async (title, diary) => {
+  const addSubmitHandler = async (title, diary, date) => {
+    console.log("date", date);
     try {
       if (title && diary) {
         await db.transaction(async (tx) => {
           await tx.executeSql(
-            "INSERT INTO Diaries (Title, Diary) VALUES (?,?)",
-            [title, diary],
+            "INSERT INTO Diaries (Title, Diary, Date) VALUES (?,?,?)",
+            [title, diary, date],
             () => {
               setShowDialog(true);
               setDialogTitle("Successful");
