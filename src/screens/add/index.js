@@ -1,11 +1,11 @@
 import * as React from "react";
-import { useContext } from "react";
+import { useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { TextInput, Button, Headline, Subheading } from "react-native-paper";
 import { useFormik } from "formik";
 import theme from "../../theme";
 import SQLite from "react-native-sqlite-storage";
-import { useEffect } from "react/cjs/react.development";
+import FlatButton from "../../components/button";
 const db = SQLite.openDatabase(
   {
     name: "MainDB",
@@ -105,16 +105,7 @@ const addDiary = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.main}>{renderedFields}</View>
       <View style={styles.footer}>
-        <Button
-          mode="contained"
-          uppercase={false}
-          color={theme.colors.primary}
-          style={styles.btn}
-          labelStyle={{ color: theme.colors.text }}
-          onPress={submitForm}
-        >
-          Create
-        </Button>
+        <FlatButton text="Create" onPress={submitForm} />
       </View>
     </View>
   );
@@ -133,12 +124,6 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 6,
-  },
-  btn: {
-    borderRadius: 5,
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center",
   },
   footer: {
     flex: 1,
