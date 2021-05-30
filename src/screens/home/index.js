@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, FlatList, StyleSheet, Image } from "react-native";
+import { View, FlatList, StyleSheet } from "react-native";
 import {
   FAB,
   IconButton,
   Card,
   Title,
   Paragraph,
-  List,
-  Text,
-  Divider,
-  Subheading,
-  Headline,
 } from "react-native-paper";
 import theme from "../../theme";
 import SQLite from "react-native-sqlite-storage";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const db = SQLite.openDatabase(
   {
@@ -29,42 +23,56 @@ const db = SQLite.openDatabase(
 
 const date = new Date().getFullYear();
 
-const Item = ({ title, diary, createdAt }) => (
-  <Card.Title
-    style={styles.item}
-    title={title}
-    subtitle={<Paragraph style={{ color: "gray" }}>{diary}</Paragraph>}
-    right={(props) => (
-      <View {...props}>
-        <IconButton
-          icon="square-edit-outline"
-          size={22}
-          onPress={() => navigation.openDrawer()}
-          color="black"
-        />
-        {/* <Paragraph>{createdAt}</Paragraph> */}
-      </View>
-    )}
-  />
-);
-
 const Home = ({ navigation }) => {
   const [diaries, setDiaries] = useState([]);
-  const [visible, setVisible] = React.useState(true);
 
-  const renderItem = ({ item }) => (
-    <Item title={item.Title} diary={item.Diary} />
+  const Item = ({ title, diary, createdAt, id }) => (
+    <Card.Title
+      style={styles.item}
+      title={title}
+      subtitle={<Paragraph style={{ color: "gray" }}>{diary}</Paragraph>}
+      right={(props) => (
+        <View {...props}>
+          <IconButton
+            icon="square-edit-outline"
+            size={22}
+            onPress={() => {
+              navigation.navigate("Edit", {
+                item: {
+                  title: title,
+                  diary: diary,
+                },
+                itemId: id,
+              });
+            }}
+            color="black"
+          />
+          {/* <Paragraph>{createdAt}</Paragraph> */}
+        </View>
+      )}
+    />
   );
 
+  const renderItem = ({ item }) => (
+    <Item title={item.Title} diary={item.Diary} id={item.ID} />
+  );
+
+  // useEffect(() => {
+  //   getData();
+  // }, []);
+
   useEffect(() => {
-    getData();
-  }, []);
+    const unsubscribe = navigation.addListener("focus", () => {
+      getData();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const getData = () => {
     try {
       db.transaction((tx) => {
         tx.executeSql("SELECT * FROM Diaries", [], (tx, results) => {
-          var len = results.rows.length;
+          let len = results.rows.length;
           if (len > 0) {
             const diaries = Array.from({ length: results.rows.length })
               .fill()
@@ -89,7 +97,7 @@ const Home = ({ navigation }) => {
         />
       ) : (
         <View style={styles.message}>
-          <Title style={{color: 'gray'}}>No Diary</Title>
+          <Title style={{ color: "gray" }}>No Diary</Title>
         </View>
       )}
       <FAB
@@ -124,6 +132,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: theme.colors.background,
-  }
+  },
 });
 export default Home;
