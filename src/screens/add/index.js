@@ -73,12 +73,7 @@ const addDiary = ({ navigation }) => {
     const { label, name } = element;
     return (
       <View key={"field-" + count} style={styles.spacing}>
-        <TextInput name={name} {...element} fullWidth />
-        {touched[name] && errors[name] && (
-          <HelperText type="error" visible={errors}>
-            {errors[name]}
-          </HelperText>
-        )}
+        <TextInput name={name} {...element} />
       </View>
     );
   });
@@ -99,7 +94,7 @@ const addDiary = ({ navigation }) => {
         await db.transaction(async (tx) => {
           await tx.executeSql(
             "INSERT INTO Diaries (Title, Diary) VALUES (?,?)",
-            [title && title, diary && diary]
+            [title, diary]
           );
         });
         navigation.navigate("Home");
