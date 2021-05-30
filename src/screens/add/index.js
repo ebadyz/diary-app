@@ -25,6 +25,9 @@ const db = SQLite.openDatabase(
 
 const addDiary = ({ navigation }) => {
   const [showDialog, setShowDialog] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState("");
+  const [dialogContent, setDialogContent] = useState("");
+  const [dialogActionText, setDialogActionText] = useState("");
   const {
     values,
     errors,
@@ -94,15 +97,32 @@ const addDiary = ({ navigation }) => {
         await db.transaction(async (tx) => {
           await tx.executeSql(
             "INSERT INTO Diaries (Title, Diary) VALUES (?,?)",
-            [title, diary]
+            [title, diary],
+            () => {
+              setShowDialog(true);
+              setDialogTitle("Successful");
+              setDialogContent("You have been created diary!");
+              setDialogActionText("ok");
+            }
           );
         });
-        navigation.navigate("Home");
       } else {
         setShowDialog(true);
+        setDialogTitle("Alert");
+        setDialogContent("You can not create an empty diary!");
+        setDialogActionText("ok");
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleClose = () => {
+    if (values.title && values.diary) {
+      setShowDialog(false);
+      navigation.navigate("Home");
+    } else {
+      setShowDialog(false);
     }
   };
 
@@ -116,13 +136,13 @@ const addDiary = ({ navigation }) => {
       </View>
       <Portal>
         <Dialog visible={showDialog} onDismiss={() => setShowDialog(false)}>
-          <Dialog.Title>Alert</Dialog.Title>
+          <Dialog.Title>{dialogTitle}</Dialog.Title>
           <Dialog.Content>
-            <Paragraph>You can not create an empty diary!</Paragraph>
+            <Paragraph>{dialogContent}</Paragraph>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button mode="text" onPress={() => setShowDialog(false)}>
-              Done
+            <Button mode="text" onPress={handleClose}>
+              {dialogActionText}
             </Button>
           </Dialog.Actions>
         </Dialog>
