@@ -12,6 +12,7 @@ import { useFormik } from "formik";
 import FlatButton from "../../components/button";
 import { useDB } from "../../hooks/useDB";
 import { updateDiaryQuery } from "../../queries/updateDiary";
+import { useTheme } from "@react-navigation/native";
 
 const dialogInitialState = {
   show: false,
@@ -23,10 +24,39 @@ const EditDiary = ({ route, navigation }) => {
   const [dialogState, setDialogState] = useState(dialogInitialState);
   const db = useDB();
   const date = Date.now();
+  const { colors } = useTheme();
 
   const hideDialog = React.useCallback(() => {
     setDialogState(dialogInitialState);
   }, []);
+
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: colors.background,
+      flex: 1,
+      justifyContent: "center",
+      paddingHorizontal: 20,
+      paddingVertical: 20,
+    },
+    input: {
+      backgroundColor: colors.surface
+    },
+    spacing: {
+      paddingBottom: 10,
+    },
+    main: {
+      flex: 6,
+    },
+    btn: {
+      borderRadius: 5,
+      height: 50,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    footer: {
+      flex: 1,
+    },
+  });
 
   const {
     values,
@@ -74,8 +104,8 @@ const EditDiary = ({ route, navigation }) => {
   const renderedFields = fields.map((element, count) => {
     const { label, name } = element;
     return (
-      <View key={"field-" + count} style={styles.spacing}>
-        <TextInput name={name} {...element} />
+      <View key={count} style={styles.spacing}>
+        <TextInput name={name} {...element} style={styles.input}/>
       </View>
     );
   });
@@ -156,30 +186,5 @@ const EditDiary = ({ route, navigation }) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#ffffff",
-    flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-  },
-  spacing: {
-    paddingBottom: 10,
-  },
-  main: {
-    flex: 6,
-  },
-  btn: {
-    borderRadius: 5,
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  footer: {
-    flex: 1,
-  },
-});
 
 export default EditDiary;
