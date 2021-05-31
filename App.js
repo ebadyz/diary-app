@@ -132,7 +132,7 @@ const DrawerScreen = () => (
 const RootStack = createStackNavigator();
 const RootStackScreen = ({ userToken }) => (
   <RootStack.Navigator headerMode="none">
-    {true || userToken ? (
+    {userToken ? (
       <RootStack.Screen
         name="App"
         component={DrawerScreen}

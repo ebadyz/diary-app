@@ -90,7 +90,7 @@ const addDiary = ({ navigation }) => {
       tx.executeSql(
         "CREATE TABLE IF NOT EXISTS " +
           "Diaries " +
-          "(ID INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Diary TEXT, CREATED_AT TEXT);"
+          "(ID INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Diary TEXT, Date TEXT);"
       );
     });
   }, [db]);

@@ -23,6 +23,7 @@ const EditDiary = ({ route, navigation }) => {
   const { item, itemId } = route.params;
   const [dialogState, setDialogState] = useState(dialogInitialState);
   const db = useDB();
+  const date = Date.now();
 
   const hideDialog = React.useCallback(() => {
     setDialogState(dialogInitialState);
@@ -45,7 +46,7 @@ const EditDiary = ({ route, navigation }) => {
     },
     // validationSchema: loginSchema,
     onSubmit: async (values) => {
-      updateSubmitHandler(values.title, values.diary);
+      updateSubmitHandler(values.title, values.diary, date);
     },
     enableReinitialize: true,
     validateOnChange: true,
@@ -80,7 +81,7 @@ const EditDiary = ({ route, navigation }) => {
     );
   });
 
-  const updateSubmitHandler = async (title, diary) => {
+  const updateSubmitHandler = async (title, diary, date) => {
     if (values.title === "" || values.diary === "") {
       setDialogState({
         show: true,
@@ -93,10 +94,10 @@ const EditDiary = ({ route, navigation }) => {
       updateDiaryQuery(
         db,
         {
-          id,
           title,
           diary,
-          lastUpdatedAt: new Date().toISOString(),
+          date,
+          itemId,
         },
         () => {
           setDialogState({
