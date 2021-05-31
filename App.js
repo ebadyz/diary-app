@@ -3,16 +3,10 @@ import { useState, useEffect, useMemo } from "react";
 import SQLite from "react-native-sqlite-storage";
 import {
   Provider as PaperProvider,
-  DefaultTheme as PaperDefaultTheme,
-  DarkTheme as PaperDarkTheme,
   ActivityIndicator,
   IconButton,
 } from "react-native-paper";
-import {
-  NavigationContainer,
-  DefaultTheme as NavigationDefaultTheme,
-  DarkTheme as NavigationDarkTheme,
-} from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { AuthContext } from "./src/contexts/auth";
@@ -25,6 +19,7 @@ import EditDiary from "./src/screens/edit";
 import Profile from "./src/screens/profile";
 import Detail from "./src/screens/detail";
 import { DBContext } from "./src/contexts/db";
+import { CustomDarkTheme, CustomDefaultTheme } from "./src/themes";
 
 const AuthStack = createStackNavigator();
 const AuthStackScreen = () => (
@@ -162,36 +157,6 @@ export default function App() {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [db, setDb] = useState(null);
 
-  const CustomDefaultTheme = {
-    ...NavigationDefaultTheme,
-    ...PaperDefaultTheme,
-    colors: {
-      ...NavigationDefaultTheme.colors,
-      ...PaperDefaultTheme.colors,
-      primary: "#1ed760",
-      accent: "#ffffff",
-      background: "#ffffff",
-      surface: "#f6f6f6",
-      text: "#000000",
-      placeholder: "#757575",
-    },
-  };
-
-  const CustomDarkTheme = {
-    ...NavigationDarkTheme,
-    ...PaperDarkTheme,
-    colors: {
-      ...NavigationDarkTheme.colors,
-      ...PaperDarkTheme.colors,
-      primary: "#1ed760",
-      accent: "#111111",
-      background: "#000000",
-      surface: "#161616",
-      text: "#ffffff",
-      placeholder: "#757575",
-    },
-  };
-
   const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
 
   const authContext = useMemo(() => {
@@ -249,7 +214,7 @@ export default function App() {
             </NavigationContainer>
           </DBContext.Provider>
         ) : (
-          <ActivityIndicator color="#1ed760" size="large" animating={true}/>
+          <ActivityIndicator color="#1ed760" size="large" animating={true} />
         )}
       </AuthContext.Provider>
     </PaperProvider>
