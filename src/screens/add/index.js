@@ -12,6 +12,7 @@ import { useFormik } from "formik";
 import FlatButton from "../../components/button";
 import { useDB } from "../../hooks/useDB";
 import { addDiaryQuery } from "../../queries/addDiary";
+import { useTheme } from "@react-navigation/native";
 
 const dialogInitialState = {
   show: false,
@@ -19,6 +20,28 @@ const dialogInitialState = {
 };
 
 const addDiary = ({ navigation }) => {
+  const { colors } = useTheme();
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: colors.background,
+      flex: 1,
+      justifyContent: "center",
+      paddingHorizontal: 20,
+      paddingVertical: 20,
+    },
+    input: {
+      backgroundColor: colors.surface,
+    },
+    spacing: {
+      paddingBottom: 10,
+    },
+    main: {
+      flex: 6,
+    },
+    footer: {
+      flex: 1,
+    },
+  });
   const [dialogState, setDialogState] = useState(dialogInitialState);
   const db = useDB();
   const date = Date.now();
@@ -78,8 +101,8 @@ const addDiary = ({ navigation }) => {
   const renderedFields = fields.map((element, count) => {
     const { label, name } = element;
     return (
-      <View key={"field-" + count} style={styles.spacing}>
-        <TextInput name={name} {...element} />
+      <View key={count} style={styles.spacing}>
+        <TextInput name={name} {...element} style={styles.input}/>
       </View>
     );
   });
@@ -147,24 +170,5 @@ const addDiary = ({ navigation }) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#ffffff",
-    flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-  },
-  spacing: {
-    paddingBottom: 10,
-  },
-  main: {
-    flex: 6,
-  },
-  footer: {
-    flex: 1,
-  },
-});
 
 export default addDiary;
