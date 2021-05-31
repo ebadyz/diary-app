@@ -169,8 +169,12 @@ export default function App() {
     colors: {
       ...NavigationDefaultTheme.colors,
       ...PaperDefaultTheme.colors,
+      primary: "#1ed760",
+      accent: "#ffffff",
       background: "#ffffff",
-      text: "#000000"
+      surface: "#f9f9f9",
+      text: "#000000",
+      placeholder: "#757575",
     },
   };
 
@@ -180,8 +184,12 @@ export default function App() {
     colors: {
       ...NavigationDarkTheme.colors,
       ...PaperDarkTheme.colors,
+      primary: "#1ed760",
+      accent: "#111111",
       background: "#000000",
-      text: "#ffffff"
+      surface: "#161616",
+      text: "#ffffff",
+      placeholder: "#757575",
     },
   };
 
