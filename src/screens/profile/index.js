@@ -8,8 +8,34 @@ import {
   Subheading,
   Headline,
 } from "react-native-paper";
+import { useTheme } from "@react-navigation/native";
 
 export default function Profile() {
+  const { colors } = useTheme();
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+      paddingHorizontal: 20,
+    },
+    avatar: {
+      flex: 2,
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    userInfo: {
+      flex: 1,
+      flexDirection: "row",
+      justifyContent: "space-around",
+    },
+    center: {
+      alignItems: "center",
+    },
+    items: {
+      flex: 1,
+    },
+  });
   return (
     <View style={styles.container}>
       <View style={styles.avatar}>
@@ -39,7 +65,7 @@ export default function Profile() {
             title="Joined Date"
             subtitle="1 january 2020"
             left={(props) => (
-              <Avatar.Icon {...props} icon="alarm" color="#ffffff" size={45}/>
+              <Avatar.Icon {...props} icon="alarm" color="#ffffff" size={45} />
             )}
           />
         </Card>
@@ -47,28 +73,3 @@ export default function Profile() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#ffffff",
-    paddingHorizontal: 20,
-  },
-  avatar: {
-    flex: 2,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  userInfo: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-around",
-  },
-  center: {
-    alignItems: "center",
-  },
-  items: {
-    flex: 1,
-  },
-});
