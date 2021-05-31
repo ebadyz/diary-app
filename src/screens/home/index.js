@@ -1,13 +1,20 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { View, FlatList, StyleSheet, TouchableHighlight } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import { FAB, IconButton, Card, Title, Caption } from "react-native-paper";
+import {
+  FAB,
+  IconButton,
+  Card,
+  Title,
+  Caption,
+  ActivityIndicator,
+} from "react-native-paper";
 import { format } from "date-fns";
 import { useDB } from "../../hooks/useDB";
 import { allDiariesQuery } from "../../queries/allDiaries";
 
 const Home = ({ navigation }) => {
-  const [diaries, setDiaries] = useState([]);
+  const [diariesState, setDiariesState] = useState({ state: "pending" });
   const db = useDB();
   const { colors } = useTheme();
 
@@ -90,16 +97,24 @@ const Home = ({ navigation }) => {
 
   const getData = useCallback(() => {
     allDiariesQuery(db, (diaries) => {
-      setDiaries(diaries);
+      setDiariesState({ state: "success", diaries });
     });
   }, [db]);
 
+  if (diariesState.state === "pending") {
+    return (
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <ActivityIndicator size="large" color={colors.primary} />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      {diaries.length ? (
+      {diariesState.diaries.length ? (
         <FlatList
           style={styles.container}
-          data={diaries}
+          data={diariesState.diaries}
           renderItem={renderItem}
           keyExtractor={(item) => item.ID}
         />
