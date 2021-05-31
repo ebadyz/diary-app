@@ -1,13 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { View, FlatList, StyleSheet, TouchableHighlight } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import {
-  FAB,
-  IconButton,
-  Card,
-  Title,
-  Caption,
-} from "react-native-paper";
+import { FAB, IconButton, Card, Title, Caption } from "react-native-paper";
 import { format } from "date-fns";
 import { useDB } from "../../hooks/useDB";
 import { allDiariesQuery } from "../../queries/allDiaries";

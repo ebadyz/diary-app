@@ -7,13 +7,15 @@ import {
   Paragraph,
   Title,
   Subheading,
+  Headline,
+  IconButton,
 } from "react-native-paper";
 import { useDB } from "../../hooks/useDB";
 import { diaryDetailQuery } from "../../queries/diaryDetail";
 import { useTheme } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
 
-const DiaryDetail = ({ route }) => {
+const DiaryDetail = ({ route, navigation }) => {
   const { itemId } = route.params;
   console.log("detail page", { itemId });
   const db = useDB();
@@ -69,7 +71,23 @@ const DiaryDetail = ({ route }) => {
 
   return (
     <ScrollView style={styles.container}>
-      <Subheading style={styles.title}>{itemState.item.Title}</Subheading>
+      <View style={{ alignItems: "flex-end" }}>
+        <IconButton
+          icon="square-edit-outline"
+          size={22}
+          onPress={() => {
+            navigation.navigate("Edit", {
+              item: {
+                title: itemState.item.Title,
+                diary: itemState.item.Diary,
+              },
+              itemId: itemState.item.ID,
+            });
+          }}
+          color={colors.text}
+        />
+      </View>
+      <Headline style={styles.title}>{itemState.item.Title}</Headline>
       <Paragraph style={styles.diary}>{itemState.item.Diary}</Paragraph>
     </ScrollView>
   );

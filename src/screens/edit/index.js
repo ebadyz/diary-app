@@ -39,7 +39,7 @@ const EditDiary = ({ route, navigation }) => {
       paddingVertical: 20,
     },
     input: {
-      backgroundColor: colors.surface
+      backgroundColor: colors.surface,
     },
     spacing: {
       paddingBottom: 10,
@@ -105,7 +105,7 @@ const EditDiary = ({ route, navigation }) => {
     const { label, name } = element;
     return (
       <View key={count} style={styles.spacing}>
-        <TextInput name={name} {...element} style={styles.input}/>
+        <TextInput name={name} {...element} style={styles.input} />
       </View>
     );
   });
@@ -126,7 +126,7 @@ const EditDiary = ({ route, navigation }) => {
           title,
           diary,
           date,
-          itemId,
+          id: itemId,
         },
         () => {
           setDialogState({

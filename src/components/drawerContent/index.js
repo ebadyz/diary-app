@@ -27,7 +27,8 @@ const DrawerContent = (props) => {
             <View style={{ flexDirection: "row", marginTop: 15 }}>
               <Avatar.Image
                 source={{
-                  uri: "https://qph.fs.quoracdn.net/main-qimg-2b21b9dd05c757fe30231fac65b504dd",
+                  uri:
+                    "https://qph.fs.quoracdn.net/main-qimg-2b21b9dd05c757fe30231fac65b504dd",
                 }}
                 size={65}
               />
@@ -83,18 +84,16 @@ const DrawerContent = (props) => {
             />
           </Drawer.Section>
           <Drawer.Section title="Preferences">
-            <TouchableRipple
-              onPress={() => {
-                toggleTheme();
-              }}
-            >
-              <View style={styles.preference}>
-                <Text>Dark Theme</Text>
-                <View pointerEvents="none">
-                  <Switch value={paperTheme.dark} color={colors.primary} />
-                </View>
+            <View style={styles.preference}>
+              <Text>Dark Theme</Text>
+              <View>
+                <Switch
+                  onValueChange={toggleTheme}
+                  value={paperTheme.dark}
+                  color={colors.primary}
+                />
               </View>
-            </TouchableRipple>
+            </View>
           </Drawer.Section>
         </View>
       </DrawerContentScrollView>
