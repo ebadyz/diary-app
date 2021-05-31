@@ -17,6 +17,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const DrawerContent = (props) => {
   const paperTheme = useTheme();
+  const { colors } = useTheme();
   const { signOut, toggleTheme } = useContext(AuthContext);
   return (
     <View style={{ flex: 1 }}>
@@ -90,7 +91,7 @@ const DrawerContent = (props) => {
               <View style={styles.preference}>
                 <Text>Dark Theme</Text>
                 <View pointerEvents="none">
-                  <Switch value={paperTheme.dark} />
+                  <Switch value={paperTheme.dark} color={colors.primary} />
                 </View>
               </View>
             </TouchableRipple>
@@ -118,6 +119,7 @@ const styles = StyleSheet.create({
   },
   userInfoSection: {
     paddingLeft: 20,
+    paddingVertical: 15,
   },
   title: {
     fontSize: 16,
@@ -147,7 +149,7 @@ const styles = StyleSheet.create({
   },
   bottomDrawerSection: {
     marginBottom: 15,
-    borderTopColor: "#f4f4f4",
+    borderTopColor: "#f1f1f1",
     borderTopWidth: 1,
   },
   preference: {
