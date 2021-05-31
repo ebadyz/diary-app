@@ -11,25 +11,23 @@ import {
 import { useFormik } from "formik";
 import theme from "../../theme";
 import FlatButton from "../../components/button";
-import SQLite from "react-native-sqlite-storage";
+import { useDB } from "../../hooks/useDB";
+import { updateDiaryQuery } from "../../queries/updateDiary";
 
-const db = SQLite.openDatabase(
-  {
-    name: "MainDB",
-    location: "default",
-  },
-  () => {},
-  (error) => {
-    console.log(error);
-  }
-);
+const dialogInitialState = {
+  show: false,
+  dialog: {},
+};
 
 const EditDiary = ({ route, navigation }) => {
   const { item, itemId } = route.params;
-  const [showDialog, setShowDialog] = useState(false);
-  const [dialogTitle, setDialogTitle] = useState("");
-  const [dialogContent, setDialogContent] = useState("");
-  const [dialogActionText, setDialogActionText] = useState("");
+  const [dialogState, setDialogState] = useState(dialogInitialState);
+  const db = useDB();
+
+  const hideDialog = React.useCallback(() => {
+    setDialogState(dialogInitialState);
+  }, []);
+
   const {
     values,
     errors,
@@ -84,30 +82,32 @@ const EditDiary = ({ route, navigation }) => {
 
   const updateSubmitHandler = async (title, diary) => {
     if (values.title === "" || values.diary === "") {
-      setShowDialog(true);
-      setDialogTitle("Alert");
-      setDialogContent("You can not create an empty diary!");
-      setDialogActionText("ok");
+      setDialogState({
+        show: true,
+        dialog: {
+          title: "Alert",
+          content: "You can not create an empty diary!",
+        },
+      });
     } else {
-      try {
-        db.transaction((tx) => {
-          tx.executeSql(
-            "UPDATE Diaries SET Title=? , Diary=? WHERE ID=?",
-            [title, diary, itemId],
-            () => {
-              setShowDialog(true);
-              setDialogTitle("Successfull");
-              setDialogContent("You have been updated diary!");
-              setDialogActionText("ok");
+      updateDiaryQuery(
+        db,
+        {
+          id,
+          title,
+          diary,
+          lastUpdatedAt: new Date().toISOString(),
+        },
+        () => {
+          setDialogState({
+            show: true,
+            dialog: {
+              title: "Successfull",
+              content: "You have updated this diary!",
             },
-            (error) => {
-              console.log(error);
-            }
-          );
-        });
-      } catch (error) {
-        console.log(error);
-      }
+          });
+        }
+      );
     }
   };
 
@@ -121,34 +121,38 @@ const EditDiary = ({ route, navigation }) => {
 
   const handleClose = () => {
     if (values.title && values.diary) {
-      setShowDialog(false);
       navigation.navigate("Home");
-    } else {
-      setShowDialog(false);
     }
+    hideDialog();
   };
+
+  useEffect(() => {
+    console.log(dialogState);
+  }, [dialogState]);
 
   return (
     <>
       <View style={styles.container}>
         <View style={styles.main}>{renderedFields}</View>
         <View style={styles.footer}>
-          <FlatButton text="Create" onPress={submitForm} />
+          <FlatButton text="Update" onPress={submitForm} />
         </View>
       </View>
-      <Portal>
-        <Dialog visible={showDialog} onDismiss={() => setShowDialog(false)}>
-          <Dialog.Title>{dialogTitle}</Dialog.Title>
-          <Dialog.Content>
-            <Paragraph>{dialogContent}</Paragraph>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button mode="text" onPress={handleClose}>
-              {dialogActionText}
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
+      {
+        <Portal>
+          <Dialog visible={dialogState.show} onDismiss={hideDialog}>
+            <Dialog.Title>{dialogState.dialog.title}</Dialog.Title>
+            <Dialog.Content>
+              <Paragraph>{dialogState.dialog.content}</Paragraph>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button mode="text" onPress={handleClose}>
+                ok
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
+      }
     </>
   );
 };

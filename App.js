@@ -18,6 +18,9 @@ import Home from "./src/screens/home";
 import AddDiary from "./src/screens/add";
 import EditDiary from "./src/screens/edit";
 import Profile from "./src/screens/profile";
+import Detail from "./src/screens/detail";
+import { DBContext } from "./src/contexts/db";
+import { ActivityIndicator } from "react-native";
 
 const AuthStack = createStackNavigator();
 const AuthStackScreen = () => (
@@ -49,6 +52,21 @@ const HomeStackScreen = ({ navigation }) => (
       }}
     />
     <HomeStack.Screen
+      name="Detail"
+      component={Detail}
+      options={{
+        title: "Diary Detail",
+        animationEnabled: false,
+        headerLeft: () => (
+          <IconButton
+            icon="arrow-left"
+            size={24}
+            onPress={() => navigation.goBack()}
+          />
+        ),
+      }}
+    />
+    <HomeStack.Screen
       name="Add"
       component={AddDiary}
       options={{
@@ -63,7 +81,7 @@ const HomeStackScreen = ({ navigation }) => (
         ),
       }}
     />
-     <HomeStack.Screen
+    <HomeStack.Screen
       name="Edit"
       component={EditDiary}
       options={{
@@ -114,7 +132,7 @@ const DrawerScreen = () => (
 const RootStack = createStackNavigator();
 const RootStackScreen = ({ userToken }) => (
   <RootStack.Navigator headerMode="none">
-    {userToken ? (
+    {true || userToken ? (
       <RootStack.Screen
         name="App"
         component={DrawerScreen}
@@ -137,6 +155,7 @@ const RootStackScreen = ({ userToken }) => (
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
+  const [db, setDb] = useState(null);
 
   const authContext = useMemo(() => {
     const temp = {
@@ -160,6 +179,22 @@ export default function App() {
     }, 1000);
   }, []);
 
+  useEffect(() => {
+    // TODO: Handle error loading database
+    setDb(
+      SQLite.openDatabase(
+        {
+          name: "MainDB",
+          location: "default",
+        },
+        () => {},
+        (error) => {
+          console.log(error);
+        }
+      )
+    );
+  }, []);
+
   if (isLoading) {
     return <Splash />;
   }
@@ -167,9 +202,15 @@ export default function App() {
   return (
     <PaperProvider theme={theme}>
       <AuthContext.Provider value={authContext}>
-        <NavigationContainer>
-          <RootStackScreen userToken={userToken} />
-        </NavigationContainer>
+        {db ? (
+          <DBContext.Provider value={db}>
+            <NavigationContainer>
+              <RootStackScreen userToken={userToken} />
+            </NavigationContainer>
+          </DBContext.Provider>
+        ) : (
+          <ActivityIndicator size="large" />
+        )}
       </AuthContext.Provider>
     </PaperProvider>
   );

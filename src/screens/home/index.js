@@ -1,53 +1,48 @@
-import React, { useState, useEffect } from "react";
-import { View, FlatList, StyleSheet } from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import { View, FlatList, StyleSheet, TouchableHighlight } from "react-native";
 import { FAB, IconButton, Card, Title, Paragraph } from "react-native-paper";
 import theme from "../../theme";
 import { format } from "date-fns";
-import SQLite from "react-native-sqlite-storage";
-
-const db = SQLite.openDatabase(
-  {
-    name: "MainDB",
-    location: "default",
-  },
-  () => {},
-  (error) => {
-    console.log(error);
-  }
-);
-
-const date = new Date().getFullYear();
+import { useDB } from "../../hooks/useDB";
+import { allDiariesQuery } from "../../queries/allDiaries";
 
 const Home = ({ navigation }) => {
   const [diaries, setDiaries] = useState([]);
+  const db = useDB();
 
   const Item = ({ title, diary, createdAt, id }) => (
-    <Card.Title
-      style={styles.item}
-      title={title}
-      subtitle={diary}
-      right={(props) => (
-        <View {...props} style={{ alignItems: "flex-end" }}>
-          <IconButton
-            icon="square-edit-outline"
-            size={22}
-            onPress={() => {
-              navigation.navigate("Edit", {
-                item: {
-                  title: title,
-                  diary: diary,
-                },
-                itemId: id,
-              });
-            }}
-            color="black"
-          />
-          <Paragraph>
-            {format(new Date(Number(createdAt)), "MM dd yyyy")}
-          </Paragraph>
-        </View>
-      )}
-    />
+    <TouchableHighlight
+      onPress={() => {
+        navigation.navigate("Detail", { itemId: id });
+      }}
+    >
+      <Card.Title
+        style={styles.item}
+        title={title}
+        subtitle={diary}
+        right={(props) => (
+          <View {...props} style={{ alignItems: "flex-end" }}>
+            <IconButton
+              icon="square-edit-outline"
+              size={22}
+              onPress={() => {
+                navigation.navigate("Edit", {
+                  item: {
+                    title: title,
+                    diary: diary,
+                  },
+                  itemId: id,
+                });
+              }}
+              color="black"
+            />
+            <Paragraph>
+              {format(new Date(Number(createdAt)), "MMM dd, yyyy")}
+            </Paragraph>
+          </View>
+        )}
+      />
+    </TouchableHighlight>
   );
 
   const renderItem = ({ item }) => (
@@ -66,23 +61,11 @@ const Home = ({ navigation }) => {
     return unsubscribe;
   }, [navigation]);
 
-  const getData = () => {
-    try {
-      db.transaction((tx) => {
-        tx.executeSql("SELECT * FROM Diaries", [], (tx, results) => {
-          let len = results.rows.length;
-          if (len > 0) {
-            const diaries = Array.from({ length: results.rows.length })
-              .fill()
-              .map((_, i) => results.rows.item(i));
-            setDiaries(diaries);
-          }
-        });
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const getData = useCallback(() => {
+    allDiariesQuery(db, (diaries) => {
+      setDiaries(diaries);
+    });
+  }, [db]);
 
   return (
     <>

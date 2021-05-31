@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import {
@@ -10,25 +10,25 @@ import {
 } from "react-native-paper";
 import { useFormik } from "formik";
 import theme from "../../theme";
-import SQLite from "react-native-sqlite-storage";
 import FlatButton from "../../components/button";
-const db = SQLite.openDatabase(
-  {
-    name: "MainDB",
-    location: "default",
-  },
-  () => {},
-  (error) => {
-    console.log(error);
-  }
-);
+import { useDB } from "../../hooks/useDB";
+import { addDiaryQuery } from "../../queries/addDiary";
+
+const dialogInitialState = {
+  show: false,
+  dialog: {},
+};
 
 const addDiary = ({ navigation }) => {
-  const [showDialog, setShowDialog] = useState(false);
-  const [dialogTitle, setDialogTitle] = useState("");
-  const [dialogContent, setDialogContent] = useState("");
-  const [dialogActionText, setDialogActionText] = useState("");
-  const date = Date.now()
+  const [dialogState, setDialogState] = useState(dialogInitialState);
+  const db = useDB();
+  const date = Date.now();
+  console.log(db);
+
+  const hideDialog = React.useCallback(() => {
+    setDialogState(dialogInitialState);
+  }, []);
+
   const {
     values,
     errors,
@@ -70,8 +70,11 @@ const addDiary = ({ navigation }) => {
   ];
 
   useEffect(() => {
-    createTable();
-  }, []);
+    console.log("db changed", db);
+    if (db) {
+      createTable();
+    }
+  }, [db]);
 
   const renderedFields = fields.map((element, count) => {
     const { label, name } = element;
@@ -82,50 +85,43 @@ const addDiary = ({ navigation }) => {
     );
   });
 
-  const createTable = () => {
+  const createTable = React.useCallback(() => {
     db.transaction((tx) => {
       tx.executeSql(
         "CREATE TABLE IF NOT EXISTS " +
           "Diaries " +
-          "(ID INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Diary TEXT, Date TEXT);"
+          "(ID INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Diary TEXT, CREATED_AT TEXT);"
       );
     });
-  };
+  }, [db]);
 
-  const addSubmitHandler = async (title, diary, date) => {
-    console.log("date", date);
-    try {
-      if (title && diary) {
-        await db.transaction(async (tx) => {
-          await tx.executeSql(
-            "INSERT INTO Diaries (Title, Diary, Date) VALUES (?,?,?)",
-            [title, diary, date],
-            () => {
-              setShowDialog(true);
-              setDialogTitle("Successful");
-              setDialogContent("You have been created diary!");
-              setDialogActionText("ok");
-            }
-          );
+  const addSubmitHandler = (title, diary, createdAt) => {
+    if (title && diary) {
+      addDiaryQuery(db, { title, diary, createdAt }, () => {
+        setDialogState({
+          show: true,
+          dialog: {
+            title: "Successful",
+            content: "You have created a new diary!",
+          },
         });
-      } else {
-        setShowDialog(true);
-        setDialogTitle("Alert");
-        setDialogContent("You can not create an empty diary!");
-        setDialogActionText("ok");
-      }
-    } catch (error) {
-      console.log(error);
+      });
+    } else {
+      setDialogState({
+        show: true,
+        dialog: {
+          title: "Alert",
+          content: "You can not create an empty diary!",
+        },
+      });
     }
   };
 
   const handleClose = () => {
     if (values.title && values.diary) {
-      setShowDialog(false);
       navigation.navigate("Home");
-    } else {
-      setShowDialog(false);
     }
+    hideDialog();
   };
 
   return (
@@ -137,14 +133,14 @@ const addDiary = ({ navigation }) => {
         </View>
       </View>
       <Portal>
-        <Dialog visible={showDialog} onDismiss={() => setShowDialog(false)}>
-          <Dialog.Title>{dialogTitle}</Dialog.Title>
+        <Dialog visible={dialogState.show} onDismiss={hideDialog}>
+          <Dialog.Title>{dialogState.dialog.title}</Dialog.Title>
           <Dialog.Content>
-            <Paragraph>{dialogContent}</Paragraph>
+            <Paragraph>{dialogState.dialog.content}</Paragraph>
           </Dialog.Content>
           <Dialog.Actions>
             <Button mode="text" onPress={handleClose}>
-              {dialogActionText}
+              ok
             </Button>
           </Dialog.Actions>
         </Dialog>
