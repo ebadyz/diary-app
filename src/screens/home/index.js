@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { View, FlatList, StyleSheet, TouchableHighlight } from "react-native";
-import { FAB, IconButton, Card, Title, Paragraph } from "react-native-paper";
+import { useTheme } from "@react-navigation/native";
+import {
+  FAB,
+  IconButton,
+  Card,
+  Title,
+  Caption,
+} from "react-native-paper";
 import { format } from "date-fns";
 import { useDB } from "../../hooks/useDB";
 import { allDiariesQuery } from "../../queries/allDiaries";
@@ -8,6 +15,33 @@ import { allDiariesQuery } from "../../queries/allDiaries";
 const Home = ({ navigation }) => {
   const [diaries, setDiaries] = useState([]);
   const db = useDB();
+  const { colors } = useTheme();
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    item: {
+      borderBottomWidth: 3,
+      borderBottomColor: colors.accent,
+      backgroundColor: colors.surface,
+      paddingVertical: 15,
+    },
+    fab: {
+      position: "absolute",
+      margin: 20,
+      right: 0,
+      bottom: 0,
+      backgroundColor: colors.primary,
+    },
+    message: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: colors.background,
+    },
+  });
 
   const Item = ({ title, diary, createdAt, id }) => (
     <TouchableHighlight
@@ -33,11 +67,11 @@ const Home = ({ navigation }) => {
                   itemId: id,
                 });
               }}
-              color="black"
+              color={colors.text}
             />
-            <Paragraph>
+            <Caption>
               {format(new Date(Number(createdAt)), "MMM dd, yyyy")}
-            </Paragraph>
+            </Caption>
           </View>
         )}
       />
@@ -67,7 +101,7 @@ const Home = ({ navigation }) => {
   }, [db]);
 
   return (
-    <>
+    <View style={styles.container}>
       {diaries.length ? (
         <FlatList
           style={styles.container}
@@ -86,32 +120,8 @@ const Home = ({ navigation }) => {
         icon="plus"
         onPress={() => navigation.navigate("Add")}
       />
-    </>
+    </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#ffffff",
-  },
-  item: {
-    elevation: 7,
-    backgroundColor: "#ffffff",
-    paddingVertical: 15,
-  },
-  fab: {
-    position: "absolute",
-    margin: 20,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "#1ed760",
-  },
-  message: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ffffff",
-  },
-});
 export default Home;
