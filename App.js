@@ -5,7 +5,7 @@ import {
   Provider as PaperProvider,
   DefaultTheme as PaperDefaultTheme,
   DarkTheme as PaperDarkTheme,
-  Button,
+  ActivityIndicator,
   IconButton,
 } from "react-native-paper";
 import {
@@ -25,7 +25,6 @@ import EditDiary from "./src/screens/edit";
 import Profile from "./src/screens/profile";
 import Detail from "./src/screens/detail";
 import { DBContext } from "./src/contexts/db";
-import { ActivityIndicator } from "react-native";
 
 const AuthStack = createStackNavigator();
 const AuthStackScreen = () => (
@@ -172,7 +171,7 @@ export default function App() {
       primary: "#1ed760",
       accent: "#ffffff",
       background: "#ffffff",
-      surface: "#f9f9f9",
+      surface: "#f6f6f6",
       text: "#000000",
       placeholder: "#757575",
     },
@@ -250,7 +249,7 @@ export default function App() {
             </NavigationContainer>
           </DBContext.Provider>
         ) : (
-          <ActivityIndicator size="large" />
+          <ActivityIndicator color="#1ed760" size="large" animating={true}/>
         )}
       </AuthContext.Provider>
     </PaperProvider>
