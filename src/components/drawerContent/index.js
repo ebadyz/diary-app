@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { View, StyleSheet } from "react-native";
 import {
   useTheme,
@@ -17,7 +17,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const DrawerContent = (props) => {
   const paperTheme = useTheme();
-  const { signOut, toggleTheme } = React.useContext(AuthContext);
+  const { signOut, toggleTheme } = useContext(AuthContext);
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>

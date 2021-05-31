@@ -3,11 +3,16 @@ import { useState, useEffect, useMemo } from "react";
 import SQLite from "react-native-sqlite-storage";
 import {
   Provider as PaperProvider,
+  DefaultTheme as PaperDefaultTheme,
+  DarkTheme as PaperDarkTheme,
   Button,
   IconButton,
 } from "react-native-paper";
-import theme from "./src/theme";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  DefaultTheme as NavigationDefaultTheme,
+  DarkTheme as NavigationDarkTheme,
+} from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { AuthContext } from "./src/contexts/auth";
@@ -155,7 +160,32 @@ const RootStackScreen = ({ userToken }) => (
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [db, setDb] = useState(null);
+
+  const CustomDefaultTheme = {
+    ...NavigationDefaultTheme,
+    ...PaperDefaultTheme,
+    colors: {
+      ...NavigationDefaultTheme.colors,
+      ...PaperDefaultTheme.colors,
+      background: "#ffffff",
+      text: "#000000"
+    },
+  };
+
+  const CustomDarkTheme = {
+    ...NavigationDarkTheme,
+    ...PaperDarkTheme,
+    colors: {
+      ...NavigationDarkTheme.colors,
+      ...PaperDarkTheme.colors,
+      background: "#000000",
+      text: "#ffffff"
+    },
+  };
+
+  const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
 
   const authContext = useMemo(() => {
     const temp = {
@@ -168,6 +198,9 @@ export default function App() {
       signOut: () => {
         setIsLoading(false);
         setUserToken(null);
+      },
+      toggleTheme: () => {
+        setIsDarkTheme((isDarkTheme) => !isDarkTheme);
       },
     };
     return temp;
@@ -204,7 +237,7 @@ export default function App() {
       <AuthContext.Provider value={authContext}>
         {db ? (
           <DBContext.Provider value={db}>
-            <NavigationContainer>
+            <NavigationContainer theme={theme}>
               <RootStackScreen userToken={userToken} />
             </NavigationContainer>
           </DBContext.Provider>
