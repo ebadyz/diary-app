@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { View, StyleSheet, ActivityIndicator, Text } from "react-native";
-import theme from "../../theme";
 import { useDB } from "../../hooks/useDB";
 import { diaryDetailQuery } from "../../queries/diaryDetail";
 
@@ -42,7 +41,7 @@ const DiaryDetail = ({ route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.colors.background,
+    backgroundColor:"#ffffff",
     flex: 1,
     justifyContent: "center",
     paddingHorizontal: 20,

@@ -1,7 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Headline } from "react-native-paper";
-import theme from "../../theme";
 
 const Splash = () => {
   return (
@@ -19,7 +18,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1ed760",
   },
   logoTitle: {
-    color: theme.colors.background,
+    color: "#ffffff",
   },
 });
 

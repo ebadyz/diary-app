@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { View, FlatList, StyleSheet, TouchableHighlight } from "react-native";
 import { FAB, IconButton, Card, Title, Paragraph } from "react-native-paper";
-import theme from "../../theme";
 import { format } from "date-fns";
 import { useDB } from "../../hooks/useDB";
 import { allDiariesQuery } from "../../queries/allDiaries";
@@ -83,7 +82,7 @@ const Home = ({ navigation }) => {
       )}
       <FAB
         style={styles.fab}
-        color={theme.colors.background}
+        color="#ffffff"
         icon="plus"
         onPress={() => navigation.navigate("Add")}
       />
@@ -94,11 +93,11 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background,
+    backgroundColor: "#ffffff",
   },
   item: {
     elevation: 7,
-    backgroundColor: theme.colors.background,
+    backgroundColor: "#ffffff",
     paddingVertical: 15,
   },
   fab: {
@@ -106,13 +105,13 @@ const styles = StyleSheet.create({
     margin: 20,
     right: 0,
     bottom: 0,
-    backgroundColor: theme.colors.primary,
+    backgroundColor: "#1ed760",
   },
   message: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: theme.colors.background,
+    backgroundColor: "#ffffff",
   },
 });
 export default Home;

@@ -9,7 +9,6 @@ import {
   Paragraph,
 } from "react-native-paper";
 import { useFormik } from "formik";
-import theme from "../../theme";
 import FlatButton from "../../components/button";
 import { useDB } from "../../hooks/useDB";
 import { updateDiaryQuery } from "../../queries/updateDiary";
@@ -160,7 +159,7 @@ const EditDiary = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.colors.background,
+    backgroundColor: "#ffffff",
     flex: 1,
     justifyContent: "center",
     paddingHorizontal: 20,

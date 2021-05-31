@@ -8,7 +8,6 @@ import {
   Subheading,
   Headline,
 } from "react-native-paper";
-import theme from "../../theme";
 
 export default function Profile() {
   return (
@@ -52,7 +51,7 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background,
+    backgroundColor: "#ffffff",
     paddingHorizontal: 20,
   },
   avatar: {

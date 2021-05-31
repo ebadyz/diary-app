@@ -9,7 +9,6 @@ import {
   HelperText,
 } from "react-native-paper";
 import { useFormik } from "formik";
-import theme from "../../theme";
 import { AuthContext } from "../../contexts/auth";
 import { loginSchema } from "../../schema";
 import FlatButton from "../../components/button";
@@ -103,7 +102,7 @@ const Login = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.colors.background,
+    backgroundColor: "#ffffff",
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
@@ -113,7 +112,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   input: {
-    backgroundColor: "#fff",
+    backgroundColor: "#ffffff",
     marginVertical: 5,
     width: window.width - 30,
   },
@@ -125,12 +124,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: theme.colors.primary 
+    color: "#1ed760",
   },
   subTitle: {
     fontSize: 17,
     fontWeight: 'bold',
-    color: theme.colors.primary 
+    color: "#1ed760",
   }
 });
 
