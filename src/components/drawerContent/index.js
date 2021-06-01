@@ -28,8 +28,7 @@ const DrawerContent = (props) => {
             <View style={{ flexDirection: "row", marginTop: 15 }}>
               <Avatar.Image
                 source={{
-                  uri:
-                    "https://qph.fs.quoracdn.net/main-qimg-2b21b9dd05c757fe30231fac65b504dd",
+                  uri: "https://qph.fs.quoracdn.net/main-qimg-2b21b9dd05c757fe30231fac65b504dd",
                 }}
                 size={65}
               />
@@ -72,15 +71,6 @@ const DrawerContent = (props) => {
               label="Profile"
               onPress={() => {
                 props.navigation.navigate("Profile");
-              }}
-            />
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="account-check-outline" color={color} size={size} />
-              )}
-              label="Support"
-              onPress={() => {
-                props.navigation.navigate("SupportScreen");
               }}
             />
           </Drawer.Section>

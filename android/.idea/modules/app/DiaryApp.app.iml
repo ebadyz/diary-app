@@ -133,6 +133,7 @@
     <orderEntry type="library" name="Gradle: org.webkit:android-jsc:r245459@aar" level="project" />
     <orderEntry type="library" name="Gradle: artifacts:react-native-reanimated:unspecified" level="project" />
     <orderEntry type="module" module-name="DiaryApp.react-native-sqlite-storage" />
+    <orderEntry type="module" module-name="DiaryApp.react-native-async-storage_async-storage" />
     <orderEntry type="module" module-name="DiaryApp.react-native-community_masked-view" />
     <orderEntry type="module" module-name="DiaryApp.react-native-gesture-handler" />
     <orderEntry type="module" module-name="DiaryApp.react-native-safe-area-context" />
