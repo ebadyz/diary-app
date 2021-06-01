@@ -90,12 +90,6 @@ const addDiary = ({ navigation }) => {
     },
   ];
 
-  useEffect(() => {
-    if (db) {
-      createTable();
-    }
-  }, [db]);
-
   const renderedFields = fields.map((element, count) => {
     const { label, name } = element;
     return (
@@ -104,16 +98,6 @@ const addDiary = ({ navigation }) => {
       </View>
     );
   });
-
-  const createTable = React.useCallback(() => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS " +
-          "Diaries " +
-          "(ID INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Diary TEXT, Date TEXT);"
-      );
-    });
-  }, [db]);
 
   const addSubmitHandler = (title, diary, createdAt) => {
     if (title && diary) {

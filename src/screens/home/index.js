@@ -95,6 +95,25 @@ const Home = ({ navigation }) => {
     return unsubscribe;
   }, [navigation]);
 
+  const createTable = React.useCallback(
+    (onSuccess) => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "CREATE TABLE IF NOT EXISTS " +
+            "Diaries " +
+            "(ID INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Diary TEXT, Date TEXT);",
+          [],
+          onSuccess
+        );
+      });
+    },
+    [db]
+  );
+
+  useEffect(() => {
+    createTable(getData);
+  }, []);
+
   const getData = useCallback(() => {
     allDiariesQuery(db, (diaries) => {
       setDiariesState({ state: "success", diaries });
