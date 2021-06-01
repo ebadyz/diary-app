@@ -49,7 +49,6 @@ const DiaryDetail = ({ route, navigation }) => {
 
   useEffect(() => {
     diaryDetailQuery(db, { id: itemId }, (item) => {
-      console.log({ item });
       setItemState({
         state: "success",
         item,

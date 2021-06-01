@@ -45,7 +45,6 @@ const addDiary = ({ navigation }) => {
   const [dialogState, setDialogState] = useState(dialogInitialState);
   const db = useDB();
   const date = Date.now();
-  console.log(db);
 
   const hideDialog = React.useCallback(() => {
     setDialogState(dialogInitialState);
@@ -92,7 +91,6 @@ const addDiary = ({ navigation }) => {
   ];
 
   useEffect(() => {
-    console.log("db changed", db);
     if (db) {
       createTable();
     }
@@ -102,7 +100,7 @@ const addDiary = ({ navigation }) => {
     const { label, name } = element;
     return (
       <View key={count} style={styles.spacing}>
-        <TextInput name={name} {...element} style={styles.input}/>
+        <TextInput name={name} {...element} style={styles.input} />
       </View>
     );
   });

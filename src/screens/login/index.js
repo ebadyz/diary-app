@@ -66,8 +66,8 @@ const Login = () => {
       password: "",
     },
     validationSchema: loginSchema,
-    onSubmit: async (values) => {
-      signIn(values.username, values.email, values.password);
+    onSubmit: (values) => {
+      signIn(values.email, values.password);
     },
     enableReinitialize: true,
     validateOnChange: true,
@@ -75,15 +75,6 @@ const Login = () => {
   });
 
   const fields = [
-    {
-      mode: "outlined",
-      placeholder: "Username",
-      name: "username",
-      error: errors.username && touched.username,
-      onChangeText: handleChange("username"),
-      value: values.username,
-      onBlur: handleBlur("username"),
-    },
     {
       mode: "outlined",
       placeholder: "Email",

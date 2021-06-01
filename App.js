@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import SQLite from "react-native-sqlite-storage";
 import {
   Provider as PaperProvider,
@@ -20,6 +20,8 @@ import Profile from "./src/screens/profile";
 import Detail from "./src/screens/detail";
 import { DBContext } from "./src/contexts/db";
 import { CustomDarkTheme, CustomDefaultTheme } from "./src/themes";
+import { Client } from "./src/apiClient";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AuthStack = createStackNavigator();
 const AuthStackScreen = () => (
@@ -151,9 +153,10 @@ const RootStackScreen = ({ userToken }) => (
   </RootStack.Navigator>
 );
 
+const apiClient = new Client("/");
+
 export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [userToken, setUserToken] = useState(null);
+  const [authState, setAuthState] = useState({ state: "pending" });
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [db, setDb] = useState(null);
 
@@ -161,29 +164,64 @@ export default function App() {
 
   const authContext = useMemo(() => {
     const temp = {
-      user: null,
-      signIn: (username, email, password) => {
-        temp.user = { username: username };
-        setIsLoading(false);
-        setUserToken("asdf");
+      signIn: (email, password) => {
+        setAuthState({ state: "pending" });
+        apiClient.signIn(email, password).then(() => {
+          setAuthState({ state: "signedIn", token: "a".repeat(32), email });
+        });
       },
       signOut: () => {
-        setIsLoading(false);
-        setUserToken(null);
+        setAuthState({ state: "pending" });
+        apiClient.signout().then(() => {
+          AsyncStorage.clear().then(() => {
+            setAuthState({ state: "signedOut" });
+          });
+        });
       },
       toggleTheme: () => {
         setIsDarkTheme((isDarkTheme) => !isDarkTheme);
       },
+      getUser() {
+        return {
+          email: authState.email,
+        };
+      },
     };
     return temp;
-  }, []);
+  }, [authState]);
 
+  // Persist token after login
+  useEffect(async () => {
+    if (authState?.token) {
+      // TODO: Handle expiration of token and automatic signouts
+      // TODO: use secure keychain or OS vault to securely save the password
+      await AsyncStorage.setItem(
+        "auth",
+        JSON.stringify({
+          token: authState.token,
+          email: authState.email,
+        })
+      );
+    }
+  }, [authState]);
+
+  // Check initial auth token
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    AsyncStorage.getItem("auth").then((auth) => {
+      if (auth) {
+        setAuthState({
+          status: "signedin",
+          ...JSON.parse(auth),
+        });
+      } else {
+        setAuthState({
+          status: "idle",
+        });
+      }
+    });
   }, []);
 
+  // Open DB
   useEffect(() => {
     // TODO: Handle error loading database
     setDb(
@@ -200,7 +238,7 @@ export default function App() {
     );
   }, []);
 
-  if (isLoading) {
+  if (authState?.state === "pending") {
     return <Splash />;
   }
 
@@ -210,7 +248,7 @@ export default function App() {
         {db ? (
           <DBContext.Provider value={db}>
             <NavigationContainer theme={theme}>
-              <RootStackScreen userToken={userToken} />
+              <RootStackScreen userToken={authState?.token} />
             </NavigationContainer>
           </DBContext.Provider>
         ) : (

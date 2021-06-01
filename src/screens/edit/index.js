@@ -156,9 +156,7 @@ const EditDiary = ({ route, navigation }) => {
     hideDialog();
   };
 
-  useEffect(() => {
-    console.log(dialogState);
-  }, [dialogState]);
+  useEffect(() => {}, [dialogState]);
 
   return (
     <>

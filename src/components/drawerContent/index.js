@@ -18,7 +18,8 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 const DrawerContent = (props) => {
   const paperTheme = useTheme();
   const { colors } = useTheme();
-  const { signOut, toggleTheme } = useContext(AuthContext);
+  const { signOut, toggleTheme, getUser } = useContext(AuthContext);
+  const user = getUser();
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
@@ -34,7 +35,7 @@ const DrawerContent = (props) => {
               />
               <View style={{ marginLeft: 15, flexDirection: "column" }}>
                 <Title style={styles.title}>John Doe</Title>
-                <Caption style={styles.caption}>@j_doe</Caption>
+                <Caption style={styles.caption}>{user.email}</Caption>
               </View>
             </View>
 
