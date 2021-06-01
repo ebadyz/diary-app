@@ -17,7 +17,6 @@ import { ScrollView } from "react-native-gesture-handler";
 
 const DiaryDetail = ({ route, navigation }) => {
   const { itemId } = route.params;
-  console.log("detail page", { itemId });
   const db = useDB();
   const { colors } = useTheme();
 
