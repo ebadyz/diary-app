@@ -1,1 +1,1 @@
-# finology-diary-app
+#diary-app
